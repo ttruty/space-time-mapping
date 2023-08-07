@@ -3,7 +3,7 @@ var sideBarContent0 =
 `<table>
     <tr>
         <th>Time</th>
-        <th>Date</th>
+        <th>Status</th>
     </tr>
     <tr>
         <td>05:00</td>
@@ -76,7 +76,7 @@ var sideBarContent1 =
 `<table>
     <tr>
         <th>Time</th>
-        <th>Date</th>
+        <th>Status</th>
     </tr>
     <tr>
         <td>05:00</td>
@@ -150,7 +150,7 @@ var sideBarContent2 =
 `<table>
     <tr>
         <th>Time</th>
-        <th>Date</th>
+        <th>Status</th>
     </tr>
     <tr>
         <td>05:00</td>
@@ -223,7 +223,7 @@ var sideBarContent3 =
 `<table>
     <tr>
         <th>Time</th>
-        <th>Date</th>
+        <th>Status</th>
     </tr>
     <tr>
         <td>05:00</td>
