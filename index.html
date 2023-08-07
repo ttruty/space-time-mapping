@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<title>Space And Time Mapping Test</title>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+	<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
+	<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+
+	<link rel="stylesheet" href="./src/L.Control.Sidebar.css" />
+	<script src="./src/L.Control.Sidebar.js"></script>
+
+    <link rel="stylesheet" href="./main.css" />
+
+    <script type="text/javascript" src="roomStyle.js"></script>
+    <script type="text/javascript" src="deskWalls.js"></script>
+    <script type="text/javascript" src="sideBarContent.js"></script>
+
+    <script type="text/javascript" src="monday.js"></script> 
+    <script type="text/javascript" src="tuesday.js"></script> 
+    <script type="text/javascript" src="wednesday.js"></script>
+    <script type="text/javascript" src="thursday.js"></script>
+    <script type="text/javascript" src="friday.js"></script>
+    <script type="text/javascript" src="saturday.js"></script>
+    <script type="text/javascript" src="sunday.js"></script>
+
+</head>
+
+<body>
+    <div id='map'></div>
+    <div id="sidebar"></div>
+    <script>
+
+    // LAYER STYLES
+
+    var footprintStyle = {
+        color: 'black',
+        fillColor: 'white',
+        fillOpacity: 1
+    };
+
+    var uneligibleSpaceStyle = {
+        color: 'black',
+        fillColor: 'black',
+        fillOpacity: .1
+    };
+
+
+
+    var fixtureStyle = {
+        color: 'black',
+        weight: .5,
+        opacity: 0.25,
+    };
+
+    var roomStyle = {
+        color: 'black',
+        opacity: 0,
+        fillColor: 'white',
+        fillOpacity: 1
+    };
+
+    var wallStyle = {
+        color: 'black',
+        fillColor: 'none',
+        weight: 3,
+        fillOpacity: 1
+    };
+
+    var highlight = {
+        color: 'red',
+        opacity: 0,
+        fillColor: 'red',
+        fillOpacity: .5,
+        weight: 2,
+    };
+
+
+    // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX FIRST FLOOR FEATURES
+    var deskFixture1 = [[39, 4], [39, 5], [40, 5], [40, 4], [39, 4]];
+    var deskFixture2 = [[39, 7], [39, 8], [40, 8], [40, 7], [39, 7]];
+    var deskFixture3 = [[39, 10], [39, 11], [40, 11], [40, 10], [39, 10]];
+    var deskFixture4 = [[39, 13], [39, 14], [40, 14], [40, 13], [39, 13]];
+    var deskFixture5 = [[25, 1], [25, 2], [26, 2], [26, 1], [25, 1]];
+    var deskFixture6 = [[25, 4], [25, 5], [26, 5], [26, 4], [25, 4]];
+    var deskFixture7 = [[25, 7], [25, 8], [26, 8], [26, 7], [25, 7]];
+
+        var L1fixtures = L.polyline(
+        [
+            deskFixture1,
+            deskFixture2,
+            deskFixture3,
+            deskFixture4,
+            deskFixture5,
+            deskFixture6,
+            deskFixture7
+        
+    ],fixtureStyle
+    );
+
+    //Walls
+
+        var perimeter1 = [[0,  0],[40,  0],[40, 15],[25, 15],[25, 20],[0, 20],[0, 0]]
+        var room1Wall = [[40, 3], [35, 3], [35, 0], [40, 0]];
+        var desk1Wall = [[40, 6], [35, 6], [35, 3], [40, 3]];
+        var desk2Wall = [[40, 9], [35, 9], [35, 6], [40, 6]];
+        var desk3Wall = [[40, 12], [35, 12], [35, 9], [40, 9]];
+        var desk4Wall = [[40, 15], [35, 15], [35, 12], [40, 12]];
+        var desk5Wall = [[30, 3], [25, 3], [25, 0], [30, 0]];
+        var desk6Wall = [[30, 6], [25, 6], [25, 3], [30, 3]];
+        var desk7Wall = [[30, 9], [25, 9], [25, 6], [30, 6]];
+        var desk8Wall = [[25, 3], [25, 0], [30, 0], [30, 3]];
+        var desk9Wall = [[25, 6], [25, 3], [30, 3], [30, 6]];
+        var desk10Wall = [[25, 9], [25, 6], [30, 6], [30, 9]];
+        var room2Wall = [[20, 15], [15, 15], [15, 20], [20, 20], [20, 15]];
+        var room3Wall = [[5, 15], [15, 15], [15, 20], [5, 20], [5, 15]];
+        var room4Wall = [[0, 15], [5, 15], [5, 20], [0, 20], [0, 15]];
+       
+        // var officeWall5 = [[0, 15], [20, 15]];
+
+
+        var L1walls = L.polyline([
+        perimeter1,
+        room1Wall,
+        desk1Wall,
+        desk2Wall,
+        desk3Wall,
+        desk4Wall,
+        desk5Wall,
+        desk6Wall,
+        desk7Wall,
+        desk8Wall,
+        desk9Wall,
+        desk10Wall,
+        room2Wall,
+        room3Wall,
+        room4Wall
+    ],wallStyle
+    ).bindPopup("Prosthetics Dept");;
+
+        var L1footprint = L.polygon(perimeter1,uneligibleSpaceStyle).bindPopup("Prosthetics Dept");;
+    
+    var L1office1 = L.rectangle(
+            room1Wall
+            ,uneligibleSpaceStyle
+    ).bindTooltip("Room 1", {permanent: true, direction:"center", className: 'tooltipclass'}).openTooltip().on('click', function () {
+    sidebar.show()
+    sidebar.setContent('<h1>Room 1</h1>' + '<h2>Ineligible</h2');;
+    });
+
+    var L1Room2 = L.rectangle(
+            room2Wall
+            ,uneligibleSpaceStyle
+    ).bindTooltip("Room 2", {permanent: true, direction:"center", className: 'tooltipclass'}).openTooltip().on('click', function () {
+    sidebar.show()
+    sidebar.setContent('<h1>Room 2</h1>' + '<h2>Ineligible</h2');
+    });
+    var L1Room3 = L.rectangle(
+            room3Wall
+            ,uneligibleSpaceStyle
+    ).bindTooltip("Room 3", {permanent: true, direction:"center", className: 'tooltipclass'}).openTooltip().on('click', function () {
+    sidebar.show()
+    sidebar.setContent('<h1>Room 3</h1>' + '<h2>Ineligible</h2'); });
+    var L1Room4 = L. rectangle(
+            room4Wall
+            ,uneligibleSpaceStyle
+    ).bindTooltip("Room 4", {permanent: true, direction:"center", className: 'tooltipclass'}).openTooltip().on('click', function () {
+    sidebar.show()
+    sidebar.setContent('<h1>Room 4</h1>' + '<h2>Ineligible</h2'); });
+
+
+    // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX LAYER GROUP HANDLING
+
+    var L1 = L.layerGroup([L1footprint, L1office1, MondayL1Desk1, MondayL1Desk2, MondayL1Desk3, MondayL1Desk4, MondayL1Desk5, MondayL1Desk6, MondayL1Desk7, L1Room2, L1Room3, L1Room4, L1fixtures, L1walls]);
+    var L2 = L.layerGroup([L1footprint, L1office1, TuesdayL1Desk1, TuesdayL1Desk2, TuesdayL1Desk3, TuesdayL1Desk4, TuesdayL1Desk5, TuesdayL1Desk6, TuesdayL1Desk7, L1Room2, L1Room3, L1Room4, L1fixtures, L1walls]);
+    var L3 = L.layerGroup([L1footprint, L1office1, WednesdayL1Desk1, WednesdayL1Desk2, WednesdayL1Desk3, WednesdayL1Desk4, WednesdayL1Desk5, WednesdayL1Desk6, WednesdayL1Desk7, L1Room2, L1Room3, L1Room4, L1fixtures, L1walls]);
+    var L4 = L.layerGroup([L1footprint, L1office1, ThursdayL1Desk1, ThursdayL1Desk2, ThursdayL1Desk3, ThursdayL1Desk4, ThursdayL1Desk5, ThursdayL1Desk6, ThursdayL1Desk7, L1Room2, L1Room3, L1Room4, L1fixtures, L1walls]);
+    var L5 = L.layerGroup([L1footprint, L1office1, FridayL1Desk1, FridayL1Desk2, FridayL1Desk3, FridayL1Desk4, FridayL1Desk5, FridayL1Desk6, FridayL1Desk7, L1Room2, L1Room3, L1Room4, L1fixtures, L1walls]);
+    var L6 = L.layerGroup([L1footprint, L1office1, SaturdayL1Desk1, SaturdayL1Desk2, SaturdayL1Desk3, SaturdayL1Desk4, SaturdayL1Desk5, SaturdayL1Desk6, SaturdayL1Desk7, L1Room2, L1Room3, L1Room4, L1fixtures, L1walls]);
+    var L7 = L.layerGroup([L1footprint, L1office1, SundayL1Desk1, SundayL1Desk2, SundayL1Desk3, SundayL1Desk4, SundayL1Desk5, SundayL1Desk6, SundayL1Desk7, L1Room2, L1Room3, L1Room4, L1fixtures, L1walls]);
+
+    //L.CursorHandler = L.Handler.extend({
+    //
+    //	addHooks: function () {
+    //		this._popup = new L.Popup();
+    //		this._map.on('mouseover', this._open, this);
+    //		this._map.on('mousemove', this._update, this);
+    //		this._map.on('mouseout', this._close, this);
+    //	},
+    //
+    //	removeHooks: function () {
+    //		this._map.off('mouseover', this._open, this);
+    //		this._map.off('mousemove', this._update, this);
+    //		this._map.off('mouseout', this._close, this);
+    //	},
+    //	
+    //	_open: function (e) {
+    //		this._update(e);
+    //		this._popup.openOn(this._map);
+    //	},
+    //
+    //	_close: function () {
+    //		this._map.closePopup(this._popup);
+    //	},
+    //
+    //	_update: function (e) {
+    //		this._popup.setLatLng(e.latlng)
+    //			.setContent(e.latlng.toString());
+    //	}
+    //
+    //});
+
+    //L.Map.addInitHook('addHandler', 'cursor', L.CursorHandler);
+
+        var map = L.map('map', {
+            crs: L.CRS.Simple,
+            minZoom: 0,
+    //		cursor: true,
+            layers: [L1],
+        });
+
+        map.setView([25.25, 9], 4);
+        map.addControl(new L.Control.Fullscreen());
+
+        var baseMaps = {
+        "Monday": L1,
+        "Tuesday": L2,
+        "Wednesday": L3,
+        "Thursday": L4,
+        "Friday": L5,
+        "Saturday": L6,
+        "Sunday": L7,
+    };
+
+    
+
+    // L1.eachLayer(function(layer) {
+    //     if (layer instanceof L.Rectangle) {
+    //         layer.on('mouseover', function (e) {
+    //             layer.setStyle(highlight);
+    //             });
+    //         layer.on('mouseout', function (e) {
+    //             layer.setStyle(roomStyle);
+    //             });
+    //     }
+    // });
+
+
+    // L2.eachLayer(function(layer) {
+    //     if (layer instanceof L.Polygon) {
+    //         layer.on('mouseover', function (e) {
+    //             layer.setStyle(highlight);
+    // //			layer.bringToFront();
+    //             });
+    //         layer.on('mouseout', function (e) {
+    //             layer.setStyle(roomStyle);
+    // //			layer.bringToBack();
+    //             });
+    //     }
+    // });
+
+    //hide sidebar when floor level is changed
+    map.on('baselayerchange', function(e) {
+        sidebar.hide();
+        console.log(e);
+    });
+
+            var sidebar = L.control.sidebar('sidebar', {
+                closeButton: true,
+                position: 'right'
+            });
+            map.addControl(sidebar);
+
+    //		var marker = L.marker([0, 0]).addTo(map).on('click', function () {
+    //			sidebar.toggle();
+    //			sidebar.setContent('<h1>2017</h1>' + '<br>' + '<img src="https://static.pexels.com/photos/189349/pexels-photo-189349.jpeg" + " class=imgclass " />' + '<h1>2018</h1>' +  '<br>' + '<img src="https://static.pexels.com/photos/189349/pexels-photo-189349.jpeg" + " class=imgclass " />' + '<h1>2019</h1>' + '<br>' + '<img src="https://static.pexels.com/photos/189349/pexels-photo-189349.jpeg" + " class=imgclass " />');
+    //		});
+
+    //		map.on('click', function () {
+    //			sidebar.hide();
+    //		})
+
+            sidebar.on('show', function () {
+                console.log('Sidebar will be visible.');
+            });
+
+            sidebar.on('shown', function () {
+                console.log('Sidebar is visible.');
+            });
+
+            sidebar.on('hide', function () {
+                console.log('Sidebar will be hidden.');
+            });
+
+            sidebar.on('hidden', function () {
+                console.log('Sidebar is hidden.');
+            });
+
+            L.DomEvent.on(sidebar.getCloseButton(), 'click', function () {
+                console.log('Close button clicked.');
+            });
+
+        L.control.layers(baseMaps,null,{collapsed:false}).addTo(map);
+
+
+    </script>   
+
+</body>
+</html>
