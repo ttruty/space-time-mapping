@@ -18,6 +18,10 @@
 	<link rel="stylesheet" href="./src/L.Control.Sidebar.css" />
 	<script src="./src/L.Control.Sidebar.js"></script>
 
+    <link rel="stylesheet" href="Leaflet-draw/leaflet.draw.css" /> <!--add here-->
+    <script src="Leaflet-draw/leaflet.draw.js"></script>           <!--and here-->
+
+
     <link rel="stylesheet" href="./main.css" />
 
     <script type="text/javascript" src="roomStyle.js"></script>
@@ -31,6 +35,13 @@
     <script type="text/javascript" src="friday.js"></script>
     <script type="text/javascript" src="saturday.js"></script>
     <script type="text/javascript" src="sunday.js"></script>
+    <script type="text/javascript" src="overall.js"></script>
+    
+    <script type="text/javascript" src="leafletStyle.js"></script>
+    <script type="text/javascript" src="walls.js"></script>
+    <script type="text/javascript" src="roomEditControls.js"></script>
+
+
 
 </head>
 
@@ -39,153 +50,42 @@
     <div id="sidebar"></div>
     <script>
 
-    // LAYER STYLES
+        var L1walls = L.polyline(
+            LINES,wallStyle
+        ).bindPopup("Prosthetics Dept");;
 
-    var footprintStyle = {
-        color: 'black',
-        fillColor: 'white',
-        fillOpacity: 1
-    };
+        monLayerList = [L1walls];
+        monLayerList.push(...MondayDesks);
+        var L1 = L.layerGroup(monLayerList);
 
-    var uneligibleSpaceStyle = {
-        color: 'black',
-        fillColor: 'black',
-        fillOpacity: .1
-    };
+        tueLayerList = [L1walls];
+        tueLayerList.push(...TuesdayDesks);
+        var L2 = L.layerGroup(tueLayerList);
 
+        wedLayerList = [L1walls];
+        wedLayerList.push(...WednesdayDesks);
+        var L3 = L.layerGroup(wedLayerList);
 
+        thuLayerList = [L1walls];
+        thuLayerList.push(...ThursdayDesks);
+        var L4 = L.layerGroup(thuLayerList);
 
-    var fixtureStyle = {
-        color: 'black',
-        weight: .5,
-        opacity: 0.25,
-    };
+        friLayerList = [L1walls];
+        friLayerList.push(...FridayDesks);
+        var L5 = L.layerGroup(friLayerList);
 
-    var roomStyle = {
-        color: 'black',
-        opacity: 0,
-        fillColor: 'white',
-        fillOpacity: 1
-    };
+        satLayerList = [L1walls];
+        satLayerList.push(...SaturdayDesks);
+        var L6 = L.layerGroup(satLayerList);
 
-    var wallStyle = {
-        color: 'black',
-        fillColor: 'none',
-        weight: 3,
-        fillOpacity: 1
-    };
+        sunLayerList = [L1walls];
+        sunLayerList.push(...SundayDesks);
+        var L7 = L.layerGroup(sunLayerList);
 
-    var highlight = {
-        color: 'red',
-        opacity: 0,
-        fillColor: 'red',
-        fillOpacity: .5,
-        weight: 2,
-    };
+        overallLayerList = [L1walls];
+        overallLayerList.push(...OverallDesks);
+        var L8 = L.layerGroup(overallLayerList);
 
-
-    // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX FIRST FLOOR FEATURES
-    var deskFixture1 = [[39, 4], [39, 5], [40, 5], [40, 4], [39, 4]];
-    var deskFixture2 = [[39, 7], [39, 8], [40, 8], [40, 7], [39, 7]];
-    var deskFixture3 = [[39, 10], [39, 11], [40, 11], [40, 10], [39, 10]];
-    var deskFixture4 = [[39, 13], [39, 14], [40, 14], [40, 13], [39, 13]];
-    var deskFixture5 = [[25, 1], [25, 2], [26, 2], [26, 1], [25, 1]];
-    var deskFixture6 = [[25, 4], [25, 5], [26, 5], [26, 4], [25, 4]];
-    var deskFixture7 = [[25, 7], [25, 8], [26, 8], [26, 7], [25, 7]];
-
-        var L1fixtures = L.polyline(
-        [
-            deskFixture1,
-            deskFixture2,
-            deskFixture3,
-            deskFixture4,
-            deskFixture5,
-            deskFixture6,
-            deskFixture7
-        
-    ],fixtureStyle
-    );
-
-    //Walls
-
-        var perimeter1 = [[0,  0],[40,  0],[40, 15],[25, 15],[25, 20],[0, 20],[0, 0]]
-        var room1Wall = [[40, 3], [35, 3], [35, 0], [40, 0]];
-        var desk1Wall = [[40, 6], [35, 6], [35, 3], [40, 3]];
-        var desk2Wall = [[40, 9], [35, 9], [35, 6], [40, 6]];
-        var desk3Wall = [[40, 12], [35, 12], [35, 9], [40, 9]];
-        var desk4Wall = [[40, 15], [35, 15], [35, 12], [40, 12]];
-        var desk5Wall = [[30, 3], [25, 3], [25, 0], [30, 0]];
-        var desk6Wall = [[30, 6], [25, 6], [25, 3], [30, 3]];
-        var desk7Wall = [[30, 9], [25, 9], [25, 6], [30, 6]];
-        var desk8Wall = [[25, 3], [25, 0], [30, 0], [30, 3]];
-        var desk9Wall = [[25, 6], [25, 3], [30, 3], [30, 6]];
-        var desk10Wall = [[25, 9], [25, 6], [30, 6], [30, 9]];
-        var room2Wall = [[20, 15], [15, 15], [15, 20], [20, 20], [20, 15]];
-        var room3Wall = [[5, 15], [15, 15], [15, 20], [5, 20], [5, 15]];
-        var room4Wall = [[0, 15], [5, 15], [5, 20], [0, 20], [0, 15]];
-       
-        // var officeWall5 = [[0, 15], [20, 15]];
-
-
-        var L1walls = L.polyline([
-        perimeter1,
-        room1Wall,
-        desk1Wall,
-        desk2Wall,
-        desk3Wall,
-        desk4Wall,
-        desk5Wall,
-        desk6Wall,
-        desk7Wall,
-        desk8Wall,
-        desk9Wall,
-        desk10Wall,
-        room2Wall,
-        room3Wall,
-        room4Wall
-    ],wallStyle
-    ).bindPopup("Prosthetics Dept");;
-
-        var L1footprint = L.polygon(perimeter1,uneligibleSpaceStyle).bindPopup("Prosthetics Dept");;
-    
-    var L1office1 = L.rectangle(
-            room1Wall
-            ,uneligibleSpaceStyle
-    ).bindTooltip("Room 1", {permanent: true, direction:"center", className: 'tooltipclass'}).openTooltip().on('click', function () {
-    sidebar.show()
-    sidebar.setContent('<h1>Room 1</h1>' + '<h2>Ineligible</h2');;
-    });
-
-    var L1Room2 = L.rectangle(
-            room2Wall
-            ,uneligibleSpaceStyle
-    ).bindTooltip("Room 2", {permanent: true, direction:"center", className: 'tooltipclass'}).openTooltip().on('click', function () {
-    sidebar.show()
-    sidebar.setContent('<h1>Room 2</h1>' + '<h2>Ineligible</h2');
-    });
-    var L1Room3 = L.rectangle(
-            room3Wall
-            ,uneligibleSpaceStyle
-    ).bindTooltip("Room 3", {permanent: true, direction:"center", className: 'tooltipclass'}).openTooltip().on('click', function () {
-    sidebar.show()
-    sidebar.setContent('<h1>Room 3</h1>' + '<h2>Ineligible</h2'); });
-    var L1Room4 = L. rectangle(
-            room4Wall
-            ,uneligibleSpaceStyle
-    ).bindTooltip("Room 4", {permanent: true, direction:"center", className: 'tooltipclass'}).openTooltip().on('click', function () {
-    sidebar.show()
-    sidebar.setContent('<h1>Room 4</h1>' + '<h2>Ineligible</h2'); });
-
-
-    // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX LAYER GROUP HANDLING
-
-    var L1 = L.layerGroup([L1footprint, L1office1, MondayL1Desk1, MondayL1Desk2, MondayL1Desk3, MondayL1Desk4, MondayL1Desk5, MondayL1Desk6, MondayL1Desk7, L1Room2, L1Room3, L1Room4, L1fixtures, L1walls]);
-    var L2 = L.layerGroup([L1footprint, L1office1, TuesdayL1Desk1, TuesdayL1Desk2, TuesdayL1Desk3, TuesdayL1Desk4, TuesdayL1Desk5, TuesdayL1Desk6, TuesdayL1Desk7, L1Room2, L1Room3, L1Room4, L1fixtures, L1walls]);
-    var L3 = L.layerGroup([L1footprint, L1office1, WednesdayL1Desk1, WednesdayL1Desk2, WednesdayL1Desk3, WednesdayL1Desk4, WednesdayL1Desk5, WednesdayL1Desk6, WednesdayL1Desk7, L1Room2, L1Room3, L1Room4, L1fixtures, L1walls]);
-    var L4 = L.layerGroup([L1footprint, L1office1, ThursdayL1Desk1, ThursdayL1Desk2, ThursdayL1Desk3, ThursdayL1Desk4, ThursdayL1Desk5, ThursdayL1Desk6, ThursdayL1Desk7, L1Room2, L1Room3, L1Room4, L1fixtures, L1walls]);
-    var L5 = L.layerGroup([L1footprint, L1office1, FridayL1Desk1, FridayL1Desk2, FridayL1Desk3, FridayL1Desk4, FridayL1Desk5, FridayL1Desk6, FridayL1Desk7, L1Room2, L1Room3, L1Room4, L1fixtures, L1walls]);
-    var L6 = L.layerGroup([L1footprint, L1office1, SaturdayL1Desk1, SaturdayL1Desk2, SaturdayL1Desk3, SaturdayL1Desk4, SaturdayL1Desk5, SaturdayL1Desk6, SaturdayL1Desk7, L1Room2, L1Room3, L1Room4, L1fixtures, L1walls]);
-    var L7 = L.layerGroup([L1footprint, L1office1, SundayL1Desk1, SundayL1Desk2, SundayL1Desk3, SundayL1Desk4, SundayL1Desk5, SundayL1Desk6, SundayL1Desk7, L1Room2, L1Room3, L1Room4, L1fixtures, L1walls]);
 
     //L.CursorHandler = L.Handler.extend({
     //
@@ -223,12 +123,75 @@
         var map = L.map('map', {
             crs: L.CRS.Simple,
             minZoom: 0,
-    //		cursor: true,
+    		cursor: true,
             layers: [L1],
+            // drawControl: true,
         });
 
-        map.setView([25.25, 9], 4);
+        map.setView([500, 1000], 0);
+        map.setMinZoom(-3);
+        map.setZoom(-2)
         map.addControl(new L.Control.Fullscreen());
+        
+        
+        
+        var editableLayers = new L.FeatureGroup();
+        map.addLayer(editableLayers);
+
+        var drawPluginOptions = {
+        position: 'bottomleft',
+        draw: {
+            polyline: false,
+            polygon: false,
+            marker: false,
+            circlemarker: false,
+            circle: false, // Turns off this drawing tool
+            rectangle: {
+                shapeOptions: {
+                    clickable: false
+                }
+            },
+        },
+        edit: {
+            featureGroup: editableLayers, //REQUIRED!!
+            remove: false
+        }
+        };
+
+
+
+
+
+        // Initialise the draw control and pass it the FeatureGroup of editable layers
+        var drawControl = new L.Control.Draw(drawPluginOptions);
+        map.addControl(drawControl);
+
+
+        var editableLayers = new L.FeatureGroup();
+        map.addLayer(editableLayers);
+
+        map.on('draw:created', function(e) {
+        var type = e.layerType,
+            layer = e.layer;
+            console.log(e.layer._bounds);
+
+            // const newButton = document.createElement('button');
+            // newButton.textContent = 'Click me!';
+            // document.body.appendChild(newButton);
+
+            // sidebar.show()
+            // sidebar.setContent(
+            //     editControls
+            // );
+
+        editableLayers.addLayer(layer);
+        });
+
+
+
+    // L.DomUtil.get('changeColor').onclick = function () {
+    //     drawControl.setDrawingOptions({rectangle: {shapeOptions: {color: '#004a80'}}});
+    // };
 
         var baseMaps = {
         "Monday": L1,
@@ -238,6 +201,8 @@
         "Friday": L5,
         "Saturday": L6,
         "Sunday": L7,
+        "Overall": L8
+        
     };
 
     
