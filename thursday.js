@@ -1,63 +1,20 @@
-var ThursdayL1Desk1 = L.rectangle(
-    desk1Wall
-    ,setRoomStyle(0)
-).bindTooltip("Desk 1", {permanent: true, direction:"center", className: 'tooltipclass'}).openTooltip().on('click', function () {
-sidebar.show()
-sidebar.setContent(
-    sideBarContent
-);;
-});
+var ThursdayDesks = [];
 
+spaceList = [space1, space2, space3, space4, space5, space6, space7, space8, space9, space10, space11, space12, space13, space14, space15, space16, space17, space18, space19, space20, space21, space22, space23, space24, space25, space26, space27, space28, space29, space30]
+nameList = ["Space1", "Space2", "Space3", "Space4", "Space5", "Space6", "Space7", "Space8", "Space9", "Space10", "Space11", "Space12", "Space13", "Space14", "Space15", "Space16", "Space17", "Space18", "Space19", "Space20", "Space21", "Space22", "Space23", "Space24", "Space25", "Space26", "Space27", "Space28", "Space29", "Space30"]
+roomStyleList = [1, 1, 2, 0, 1, 3, 2, 1, 2, 0, 2, 2, 1, 2, 3, 2, 2, 3, 2, 1, 2, 2, 2, 1, 3, 2, 1, 1, 2, 1];
+sideBarList = [sideBarContent0, sideBarContent1, sideBarContent2, sideBarContent3]
 
-var ThursdayL1Desk2 = L.rectangle(
-    desk2Wall
-    ,setRoomStyle(2)
-).bindTooltip("Desk 2", {permanent: true, direction:"center", className: 'tooltipclass'}).openTooltip().on('click', function () {
-sidebar.show()
-sidebar.setContent(
-    sideBarContent2);
-});
-
-var ThursdayL1Desk3 = L.rectangle(
-    desk3Wall
-    ,setRoomStyle(1)
-).bindTooltip("Desk 3", {permanent: true, direction:"center", className: 'tooltipclass'}).openTooltip().on('click', function () {
-sidebar.show()
-sidebar.setContent(
-    sideBarContent1);
-});
-
-var ThursdayL1Desk4 = L.rectangle(
-    desk4Wall
-    ,setRoomStyle(0)
-).bindTooltip("Desk 4", {permanent: true, direction:"center", className: 'tooltipclass'}).openTooltip().on('click', function () {
-sidebar.show()
-sidebar.setContent(
-    sideBarContent0);
-});
-
-
-var ThursdayL1Desk5 = L.rectangle(
-    desk5Wall
-    ,setRoomStyle(2)
-).bindTooltip("Desk 5", {permanent: true, direction:"center", className: 'tooltipclass'}).openTooltip().on('click', function () {
-sidebar.show()
-sidebar.setContent(sideBarContent2);
-});
-
-var ThursdayL1Desk6 = L.rectangle(
-    desk6Wall
-    ,setRoomStyle(2)
-).bindTooltip("Desk 6", {permanent: true, direction:"center", className: 'tooltipclass'}).openTooltip().on('click', function () {
-sidebar.show()
-sidebar.setContent(sideBarContent2);
-});
-
-var ThursdayL1Desk7 = L.rectangle(
-    desk7Wall
-    ,setRoomStyle(3)
-).bindTooltip("Desk 7", {permanent: true, direction:"center", className: 'tooltipclass'}).openTooltip().on('click', function () {
-sidebar.show()
-sidebar.setContent(
-    sideBarContent3);
-});
+for (let i = 0; i < spaceList.length; i++) {
+    let roomStyleNum = roomStyleList[i];
+    let sideBar = sideBarList[roomStyleNum];
+    var space = L.rectangle
+        (
+            spaceList[i],
+            setRoomStyle(roomStyleNum)
+        ).bindTooltip(nameList[i], {permanent: true, direction:"center", className: 'tooltipclass'}).openTooltip().on('click', function () {
+            sidebar.show()
+            sidebar.setContent(sideBar);
+        });
+        ThursdayDesks.push(space);
+}
