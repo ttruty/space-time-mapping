@@ -14,6 +14,8 @@ function setRoomStyle(roomOccupancy) {
         case 3:
             roomStyle = {color: 'black', opacity: 0, fillOpacity: 0.75, fillColor: 'red' }; // Set the style for a fully occupied room
             break;
+        case 4:
+            roomStyle = {color: 'black', opacity: 0, fillOpacity: 1, fillColor: 'gray' }; // Set the style for a fully occupied room
         default:
             roomStyle = {color: 'black', opacity: 0, fillOpacity: 0.1, color: 'green' }; // Set a default style for unknown occupancy
     }

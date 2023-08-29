@@ -437,3 +437,15 @@ var sideBarContentOverall3 =
     </tr>
 </table>`;
 
+
+
+
+var sideBarContent4 =
+`<p>Eligible for Office Space</p>`;
+
+var sideBarContentOverall5 =
+`<p>Eligible for Clinic Space</p>`;
+
+var sideBarContentOverall6 = 
+`<p> Not Eligible for Space</p>`;   
+
